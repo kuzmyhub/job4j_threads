@@ -14,12 +14,9 @@ public class ThreadState {
         );
         second.start();
 
-        boolean selector = true;
-        while (selector) {
-            if (first.getState() == Thread.State.TERMINATED
-                    && second.getState() == Thread.State.TERMINATED) {
-                selector = false;
-            }
+        while (first.getState() != Thread.State.TERMINATED
+                || second.getState() != Thread.State.TERMINATED) {
+            System.out.println("Working...");
         }
         System.out.println("Work is completed");
     }
