@@ -7,6 +7,7 @@ public class ConcurrentOutput {
                         .getName())
         );
         another.start();
+
         System.out.println(Thread.currentThread().getName());
         Thread second = new Thread(
                 () -> System.out.println(Thread.currentThread()
