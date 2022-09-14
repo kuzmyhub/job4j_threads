@@ -10,7 +10,6 @@ public class ConsoleProgress implements Runnable {
 
     @Override
     public void run() {
-
         String[] process = {"\\", "|", "/"};
         while (!Thread.currentThread().isInterrupted()) {
             for (String s : process) {
