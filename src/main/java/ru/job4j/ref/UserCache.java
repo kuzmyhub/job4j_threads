@@ -22,7 +22,11 @@ public class UserCache {
     }
 
     public List<User> findAll() {
-        return List.copyOf(new ArrayList<>(users.values()));
+        List<User> userList = new ArrayList<>();
+        for (User u : users.values()) {
+            userList.add(User.of(u.getName()));
+        }
+        return userList;
     }
 
 }
