@@ -13,19 +13,19 @@ public final class ParseFile implements Parse {
 
     @Override
     public synchronized String getContent(Predicate<Character> predicate) {
-        String output = "";
+        StringBuilder sb = new StringBuilder();
         try (BufferedInputStream in = new BufferedInputStream(
                 new FileInputStream(file)
         )) {
             int data;
-            while ((data = in.read()) > 0) {
+            while ((data = in.read()) != -1) {
                 if (predicate.test((char) data)) {
-                    output += (char) data;
+                    sb.append((char) data);
                 }
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return output;
+        return sb.toString();
     }
 }
