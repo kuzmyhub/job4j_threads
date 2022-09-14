@@ -7,12 +7,14 @@ import java.net.URL;
 
 public class Wget implements Runnable {
 
-    private final String url;
+    static private final int ONE_SECOND_IN_MILLISECONDS = 1000;
+
+    private final String readPath;
 
     private final int speed;
 
-    public Wget(String url, int speed) {
-        this.url = url;
+    public Wget(String path, int speed) {
+        this.readPath = path;
         this.speed = speed;
     }
 
@@ -33,18 +35,23 @@ public class Wget implements Runnable {
     @Override
     public void run() {
         try (BufferedInputStream in = new BufferedInputStream(
-                new URL(url).openStream()
+                new URL(readPath).openStream()
         );
-             FileOutputStream out = new FileOutputStream("pom_tmp.xml")) {
+             FileOutputStream out = new FileOutputStream(url)) {
             byte[] dataBuffer = new byte[1024];
             int bytesRead;
+            int downloadData = 0;
+            long startTime = System.currentTimeMillis();
             while ((bytesRead = in.read(dataBuffer, 0, 1024)) != -1) {
-                out.write(dataBuffer, 0, bytesRead);
-                long startTime = System.currentTimeMillis();
-                long endTime = System.currentTimeMillis();
-                if ((endTime - startTime) < speed) {
-                    Thread.sleep((endTime - startTime) + speed);
+                downloadData += bytesRead;
+                if (downloadData >= speed) {
+                    long endTime = System.currentTimeMillis();
+                    if ((endTime - startTime) < ONE_SECOND_IN_MILLISECONDS) {
+                        Thread.sleep(ONE_SECOND_IN_MILLISECONDS
+                                - (endTime - startTime));
+                    }
                 }
+                out.write(dataBuffer, 0, bytesRead);
             }
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
