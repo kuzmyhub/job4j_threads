@@ -4,7 +4,7 @@ import net.jcip.annotations.ThreadSafe;
 
 import java.util.Iterator;
 import java.util.List;
-
+/*
 @ThreadSafe
 public class SingleLockList<T> implements Iterable<T> {
     private final List<T> list;
@@ -25,3 +25,4 @@ public class SingleLockList<T> implements Iterable<T> {
         return copy(list).iterator();
     }
 }
+*/

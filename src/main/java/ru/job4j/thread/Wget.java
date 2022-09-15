@@ -53,11 +53,12 @@ public class Wget implements Runnable {
                 out.write(dataBuffer, 0, bytesRead);
                 if (downloadData >= speed) {
                     long nowTime = System.currentTimeMillis();
-                    System.out.println(nowTime - startTime);
-                    if ((nowTime - startTime) < ONE_SECOND_IN_MILLISECONDS) {
-                        Thread.sleep(ONE_SECOND_IN_MILLISECONDS - (nowTime - startTime));
-                        downloadData = 0;
-                        startTime = System.currentTimeMillis();
+                    long timeDifference = nowTime - startTime;
+                    System.out.println(timeDifference);
+                    downloadData = 0;
+                    startTime = System.currentTimeMillis();
+                    if ((timeDifference) < ONE_SECOND_IN_MILLISECONDS) {
+                        Thread.sleep(ONE_SECOND_IN_MILLISECONDS - timeDifference);
                     }
                 }
             }
