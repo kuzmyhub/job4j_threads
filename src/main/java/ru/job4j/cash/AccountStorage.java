@@ -9,28 +9,19 @@ public class AccountStorage {
 
     public boolean add(Account account) {
         synchronized (accounts) {
-            Optional<Account> optional = Optional.ofNullable(
-                    accounts.putIfAbsent(account.id(), account)
-            );
-            return optional.isEmpty();
+            return accounts.putIfAbsent(account.id(), account) == null;
         }
     }
 
     public boolean update(Account account) {
         synchronized (accounts) {
-            Optional<Account> optional = Optional.ofNullable(
-                    accounts.replace(account.id(), account)
-            );
-            return optional.isPresent();
+            return accounts.replace(account.id(), account) != null;
         }
     }
 
     public boolean delete(int id) {
         synchronized (accounts) {
-            Optional<Account> optional = Optional.ofNullable(
-                    accounts.remove(id)
-            );
-            return optional.isPresent();
+            return accounts.remove(id) != null;
         }
     }
 
