@@ -11,6 +11,14 @@ public final class ParseFile implements Parse {
         this.file = file;
     }
 
+    public String getDataFromFile() {
+        return getContent(x -> true);
+    }
+
+    public String getDataFromFileWithOutUnicode() {
+        return getContent(x -> x < 0x80);
+    }
+
     @Override
     public synchronized String getContent(Predicate<Character> predicate) {
         StringBuilder sb = new StringBuilder();
