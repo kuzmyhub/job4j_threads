@@ -6,7 +6,6 @@ import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 class CacheTest {
-
     @Test
     public void whenAddThenTrue() {
         Cache cache = new Cache();
