@@ -11,16 +11,24 @@ import static org.junit.jupiter.api.Assertions.*;
 class SimpleBlockingQueueTest {
 
     @Test
-    public void whenPollThen2() {
-        SimpleBlockingQueue<Integer> queue = new SimpleBlockingQueue<>();
+    public void whenPollThen2() throws InterruptedException {
+        SimpleBlockingQueue<Integer> queue = new SimpleBlockingQueue<>(2);
         List<Integer> in = List.of(1, 2);
         Thread producer = new Thread(() -> {
             for (Integer i : in) {
-                queue.offer(i);
+                try {
+                    queue.offer(i);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
             }
         });
         Thread consumer = new Thread(() -> {
-            queue.poll();
+            try {
+                queue.poll();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         });
         producer.start();
         try {
@@ -38,17 +46,25 @@ class SimpleBlockingQueueTest {
     }
 
     @Test
-    public void whenPollThen6() {
-        SimpleBlockingQueue<Integer> queue = new SimpleBlockingQueue<>();
+    public void whenPollThen6() throws InterruptedException {
+        SimpleBlockingQueue<Integer> queue = new SimpleBlockingQueue<>(2);
         List<Integer> in = List.of(1, 2, 3);
         Thread producer = new Thread(() -> {
             for (Integer i : in) {
-                queue.offer(i);
+                try {
+                    queue.offer(i);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
             }
         });
         Thread consumer = new Thread(() -> {
-            queue.poll();
-            queue.poll();
+            try {
+                queue.poll();
+                queue.poll();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         });
         producer.start();
         consumer.start();
