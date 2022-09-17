@@ -6,7 +6,7 @@ import java.util.regex.Pattern;
 
 public class EmailNotification {
 
-    ExecutorService pool = Executors.newFixedThreadPool(
+    private final ExecutorService pool = Executors.newFixedThreadPool(
             Runtime.getRuntime().availableProcessors()
     );
 
