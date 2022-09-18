@@ -10,6 +10,8 @@ public class FindForkJoinPool<T> extends RecursiveTask<Integer> {
 
     private static final int IN_HALF = 2;
 
+    private static final int LIMIT_ARRAY_LENGTH = 10;
+
     private final T[] array;
 
     private final int firstElement;
@@ -28,7 +30,7 @@ public class FindForkJoinPool<T> extends RecursiveTask<Integer> {
 
     @Override
     protected Integer compute() {
-        if ((lastElement - firstElement) <= 10) {
+        if ((lastElement - firstElement) <= LIMIT_ARRAY_LENGTH) {
             int rsl = NOT_FOUND;
             for (int i = firstElement; i <= lastElement; i++) {
                 if (array[i].equals(searchElement)) {
@@ -49,18 +51,13 @@ public class FindForkJoinPool<T> extends RecursiveTask<Integer> {
         rightSearch.fork();
         Integer left = leftSearch.join();
         Integer right = rightSearch.join();
-        return left > right ? left : right;
+        return Math.max(left, right);
     }
 
-    public static void main(String[] args) {
-        Integer[] array = new Integer[100000];
-        for (int i = 0; i < array.length; i++) {
-            array[i] = i;
-        }
+    public static <T> int sort(T[] array, int from, int to, T element) {
         ForkJoinPool forkJoinPool = new ForkJoinPool();
-        int index = forkJoinPool.invoke(new FindForkJoinPool<>(
-                array, 0, array.length - 1, 36555
+        return forkJoinPool.invoke(new FindForkJoinPool<>(
+                array, from, to, element
         ));
-        System.out.println(index);
     }
 }
