@@ -33,11 +33,8 @@ public class TopicService implements Service {
             ConcurrentHashMap<String,
                     ConcurrentLinkedQueue<String>> tempMap
                     = map.get(sourceName);
-            if (tempMap != null) {
-                tempMap.putIfAbsent(param, new ConcurrentLinkedQueue<>());
-            }
-            tempMap = map.get(sourceName);
-            text = tempMap.get(param).poll();
+            tempMap.putIfAbsent(param, new ConcurrentLinkedQueue<>());
+            text = map.get(sourceName).get(param).poll();
 
         }
         return new Resp(text == null ? "" : text,

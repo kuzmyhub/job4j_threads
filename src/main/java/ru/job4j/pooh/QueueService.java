@@ -21,8 +21,8 @@ public class QueueService implements Service {
         if (POST.equals(httpRequestType)) {
             ConcurrentLinkedQueue<String> queue
                     = new ConcurrentLinkedQueue<>();
-            queue.add(param);
             map.putIfAbsent(sourceName, queue);
+            map.get(sourceName).add(param);
         } else if (GET.equals(httpRequestType)) {
             ConcurrentLinkedQueue<String> tempQueue = map.get(sourceName);
             if (tempQueue != null) {
