@@ -3,9 +3,7 @@ package ru.job4j.cache;
 public class Base {
 
     private final int id;
-
     private final int version;
-
     private String name;
 
     public Base(int id, int version) {
