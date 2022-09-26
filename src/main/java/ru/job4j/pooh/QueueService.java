@@ -19,15 +19,13 @@ public class QueueService implements Service {
         String param = req.getParam();
         String text = null;
         if (POST.equals(httpRequestType)) {
-            ConcurrentLinkedQueue<String> queue
-                    = new ConcurrentLinkedQueue<>();
-            map.putIfAbsent(sourceName, queue);
+            map.putIfAbsent(sourceName, new ConcurrentLinkedQueue<>());
             map.get(sourceName).add(param);
         } else if (GET.equals(httpRequestType)) {
-            ConcurrentLinkedQueue<String> tempQueue = map.get(sourceName);
-            if (tempQueue != null) {
-                text = tempQueue.poll();
-            }
+            ConcurrentLinkedQueue<String> tempQueue = map.getOrDefault(
+                    sourceName, new ConcurrentLinkedQueue<>()
+            );
+            text = tempQueue.poll();
         }
         return new Resp(text == null ? "" : text,
                 text == null ? "204" : "200");

@@ -30,12 +30,9 @@ public class TopicService implements Service {
             }
         } else if (GET.equals(httpRequestType)) {
             map.putIfAbsent(sourceName, new ConcurrentHashMap<>());
-            ConcurrentHashMap<String,
-                    ConcurrentLinkedQueue<String>> tempMap
-                    = map.get(sourceName);
-            tempMap.putIfAbsent(param, new ConcurrentLinkedQueue<>());
+            map.get(sourceName)
+                    .putIfAbsent(param, new ConcurrentLinkedQueue<>());
             text = map.get(sourceName).get(param).poll();
-
         }
         return new Resp(text == null ? "" : text,
                 "200");
