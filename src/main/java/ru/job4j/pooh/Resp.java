@@ -5,6 +5,7 @@ import java.util.Objects;
 public class Resp {
 
     private final String text;
+
     private final String status;
 
     public Resp(String text, String status) {
